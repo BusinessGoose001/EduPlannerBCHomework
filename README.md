@@ -67,7 +67,7 @@
 
 
 ## Q4 - Queries
-### Notes:
+### Notes
 1. {{}} denotes a parameter to be filled in by the executing agent
 _Database backend not specified so assuming we are using a postgres backend_
 ### Queries
@@ -77,4 +77,4 @@ _Database backend not specified so assuming we are using a postgres backend_
    1. [age_group_sales](./q4_queries/age_groups_sales.sql)
    2. [age_group_country_sales.sql](./q4_queries/age_group_country_sales.sql)
 4. [orders_by_day_histogram](./q4_queries/orders_by_day_histogram.sql)
-5. [percent_items_discounted]()
+5. [percent_items_discounted](./q4_queries/percent_items_discounted.sql)
