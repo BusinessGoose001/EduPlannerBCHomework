@@ -41,6 +41,23 @@
 | List line items customer has ordered before | GET    | `customer/{customer_id}/lineitems` | Takes search params to filter results. Returns 200, List of line item info objects, paginated |
 | Update line item                            | PATCH  | `lineitem/{lineitem_id}`           | Takes JSON form data of fields to update.                                                     |
 - _To preserve historical accuracy, pricing should ideally be stored in a separate `ItemPrice` table or equivalent. With teh database as provided, updating `LineItemUnitPrice` could alter order history on recall. An alternative is generating static receipts at purchase time and storing them externally which is simpler, but less useful for long-term analytics._
+### CustomerAddress
+| Purpose                      | Method | Endpoint                                          | Notes                                                                                          |
+|------------------------------|--------|---------------------------------------------------|------------------------------------------------------------------------------------------------|
+| Create new customer address  | POST   | `/customers/{customer_id}/addresses`              | Takes JSON form data; associates address with specified customer                              |
+| Fetch customer address       | GET    | `/customers/{customer_id}/addresses/{address_id}` | Returns 200, JSON object of address info                                           |
+| List customer addresses      | GET    | `/customers/{customer_id}/addresses`              | Returns 200, list of addresses for a given customer                                            |
+| Update customer address      | PATCH  | `/customers/{customer_id}/addresses/{address_id}` | Takes JSON form data of fields to change                                              |
+| Delete customer address      | DELETE | `/customers/{customer_id}/addresses/{address_id}` | Returns 204 on success; removes the address record                                      |
+
+### ReturnItem
+| Purpose                      | Method | Endpoint                                        | Notes                                                                                                 |
+|------------------------------|--------|-------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| Create new return item       | POST   | `/orders/{order_id}/returns`                    | Takes JSON form data including `line_item_id`, `quantity`, and `amount_returned`                     |
+| Fetch return item            | GET    | `/orders/{order_id}/returns/{returned_item_id}` | Returns 200, JSON object of return info                                                               |
+| List returns for an order    | GET    | `/orders/{order_id}/returns`                    | Returns 200, list of returned items for the specified order                                           |
+| Update return item           | PATCH  | `/orders/{order_id}/returns/{returned_item_id}` | Takes JSON form data to update return details (e.g., quantity adjustment or correction)              |
+| Delete return item           | DELETE | `/orders/{order_id}/returns/{returned_item_id}` | Returns 204 on success; typically restricted to admin or correction workflows                        |
 
 ## Q2 - Using Go return occurrence of digit in series between 2 numbers
 #### _NOTE: Go is developer's choice_
