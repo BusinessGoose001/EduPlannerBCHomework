@@ -70,6 +70,8 @@
 _Database backend not specified so assuming we are using a postgres backend_
 1. [best_selling_product.sql](./q4_queries/best_selling_product.sql)
 2. [top_buying_customers.sql](./q4_queries/top_buying_customers.sql)
-3. []()
+3. Two parts 
+   1. [age_group_sales](./q4_queries/age_groups_sales.sql)
+   2. [age_group_country_sales.sql](./q4_queries/age_group_country_sales.sql)
 4. []()
 5. []()
