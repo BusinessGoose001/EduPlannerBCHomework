@@ -20,7 +20,9 @@ func main() {
 	router.POST("/findInSeries", findInSeries)
 	router.GET("/health", isHealthy)
 
-	router.Run(":" + getPort())
+	if err := router.Run(":" + getPort()); err != nil {
+		panic(err)
+	}
 }
 
 func getPort() string {
