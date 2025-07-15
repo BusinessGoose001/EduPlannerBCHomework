@@ -13,7 +13,7 @@
 |-------------------------|--------|------------------------------|---------------------------------------------------------------------------------------------------|
 | Create new customer     | POST   | `/customers`                 | Takes JSON form data, Returns customer info object                                                |
 | Fetch existing customer | GET    | `/customers/{{customer_id}}` | Returns JSON object of customer info                                                              |
-| List customers          | GET    | `/customers`                 | Takes: search parameters to filter results. Returns List of <br/>customer info objects, paginated |
+| List customers          | GET    | `/customers`                 | Takes: search parameters to filter results. <br/>Returns List of customer info objects, paginated |
 | Update customer         | PATCH  | `/customers/{{customer_id}}` | Takes JSON form data of fields to update.                                                         |
 | Delete customer         | DELETE | `/customers/{{customer_id}}` | Returns 204                                                                                       |
 - _We would not allow updating of CustomerID_
@@ -22,8 +22,8 @@
 |--------------------------|--------|-------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | Create new order         | POST   | `/orders`                           | Takes JSON form data, Returns order info object                                                                                     |
 | Fetch existing order     | GET    | `/orders/{{order_id}}`              | Returns JSON object of order info                                                                                                   |
-| List all orders          | GET    | `/orders`                           | Takes search params to filter results. Returns List of order info objects, paginated                                                |
-| List orders for customer | GET    | `/customers/{{customer_id}}/orders` | Takes search params to filter results. Returns List of order info objects where <br/>CustomerID column matches provided customer_id |
+| List all orders          | GET    | `/orders`                           | Takes search params to filter results. <br/>Returns List of order info objects, paginated                                           |
+| List orders for customer | GET    | `/customers/{{customer_id}}/orders` | Takes search params to filter results. <br/>Returns List of order info objects where CustomerID column matches provided customer_id |
 | Update order             | PATCH  | `/orders/{{order_id}}`              | Takes JSON form data of fields to update.                                                                                           |
 | Fulfill order            | PATCH  | `/orders/{{order_id}}/fulfill`      | Returns 204                                                                                                                         |
 | Cancel order             | PATCH  | `/orders/{{order_id}}/cancel`       | Returns 204                                                                                                                         |
@@ -33,31 +33,34 @@
 - _Cancelling and fulfilling orders can be updated through the Update Order endpoint but if there are knock on actions (like notifying the customer via email etc.) it can be nicer to scope them out to specific endpoints_
 - _Order is not a great table name as it is part of the protected `ORDER BY` keyword pair for `SQL` 
 ### LineItem
-| Purpose                                          | Method | Endpoint                             | Notes                                                                                    | 
-|--------------------------------------------------|--------|--------------------------------------|------------------------------------------------------------------------------------------|
-| Create new line item                             | POST   | `/lineitems`                         | Takes JSON form data                                                                     |
-| Fetch line item                                  | GET    | `/lineitems/{{lineitem_id}}`         | Returns JSON object of line item info                                                    |
-| List all line items                              | GET    | `/lineitems`                         | Takes search params to filter results. Returns List of line item info objects, paginated |
-| List line items in order                         | GET    | `/order/{{order_id}}/lineitems`      | Returns List of line item info objects, paginated                                        |
-| List line items customer <br/>has ordered before | GET    | `customer/{{customer_id}}/lineitems` | Takes search params to filter results. Returns List of line item info objects, paginated |
-| Update line item                                 | PATCH  | `lineitem/{{lineitem_id}}`           | Takes JSON form data of fields to update.                                                |
+| Purpose                                          | Method | Endpoint                              | Notes                                                                                         | 
+|--------------------------------------------------|--------|---------------------------------------|-----------------------------------------------------------------------------------------------|
+| Create new line item                             | POST   | `/lineitems`                          | Takes JSON form data                                                                          |
+| Fetch line item                                  | GET    | `/lineitems/{{lineitem_id}}`          | Returns JSON object of line item info                                                         |
+| List all line items                              | GET    | `/lineitems`                          | Takes search params to filter results. <br/>Returns List of line item info objects, paginated |
+| List line items in order                         | GET    | `/order/{{order_id}}/lineitems`       | Returns List of line item info objects, paginated                                             |
+| List line items customer <br/>has ordered before | GET    | `customers/{{customer_id}}/lineitems` | Takes search params to filter results. Returns List of line item info objects, paginated      |
+| Update line item                                 | PATCH  | `lineitem/{{lineitem_id}}`            | Takes JSON form data of fields to update.                                                     |
 ### CustomerAddress
-| Purpose                     | Method | Endpoint                                              | Notes                                                            |
-|-----------------------------|--------|-------------------------------------------------------|------------------------------------------------------------------|
-| Create new customer address | POST   | `/customers/{{customer_id}}/addresses`                | Takes JSON form data; associates address with specified customer |
-| Fetch customer address      | GET    | `/customers/{{customer_id}}/addresses/{{address_id}}` | Returns JSON object of address info                              |
-| List customer addresses     | GET    | `/customers/{{customer_id}}/addresses`                | Returns list of addresses for a given customer                   |
-| Update customer address     | PATCH  | `/customers/{{customer_id}}/addresses/{{address_id}}` | Takes JSON form data of fields to change                         |
-| Delete customer address     | DELETE | `/customers/{{customer_id}}/addresses/{{address_id}}` | Returns 204 on success; removes the address record               |
-
+| Purpose                     | Method | Endpoint                                              | Notes                                                                                           |
+|-----------------------------|--------|-------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| Create new customer address | POST   | `/customers/{{customer_id}}/addresses`                | Takes JSON form data; associates address with specified customer                                |
+| Fetch customer address      | GET    | `/customers/{{customer_id}}/addresses/{{address_id}}` | Returns JSON object of address info                                                             |
+| List all customer addresses | GET    | `/addresses`                                          | Takes search params to filter results. Returns List of customer address info objects, paginated |
+| List customer addresses     | GET    | `/customers/{{customer_id}}/addresses`                | Returns list of addresses for a given customer                                                  |
+| Update customer address     | PATCH  | `/customers/{{customer_id}}/addresses/{{address_id}}` | Takes JSON form data of fields to change                                                        |
+| Delete customer address     | DELETE | `/customers/{{customer_id}}/addresses/{{address_id}}` | Returns 204 on success; removes the address record                                              |
+- _We would not allow update of CustomerID_
 ### ReturnItem
-| Purpose                   | Method | Endpoint                                            | Notes                                                                                   |
-|---------------------------|--------|-----------------------------------------------------|-----------------------------------------------------------------------------------------|
-| Create new return item    | POST   | `/orders/{{order_id}}/returns`                      | Takes JSON form data including `line_item_id`, `quantity`, and `amount_returned`        |
-| Fetch return item         | GET    | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Returns JSON object of return info                                                      |
-| List returns for an order | GET    | `/orders/{{order_id}}/returns`                      | Returns list of returned items for the specified order                                  |
-| Update return item        | PATCH  | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Takes JSON form data to update return details (e.g., quantity adjustment or correction) |
-| Delete return item        | DELETE | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Returns 204 on success; typically restricted to admin or correction workflows           |
+| Purpose                   | Method | Endpoint                                            | Notes                                                                                      |
+|---------------------------|--------|-----------------------------------------------------|--------------------------------------------------------------------------------------------|
+| Create new return item    | POST   | `/orders/{{order_id}}/returns`                      | Takes JSON form data including `line_item_id`, `quantity`, and `amount_returned`           |
+| Fetch return item         | GET    | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Returns JSON object of return info                                                         |
+| Fetch all returned items  | GET    | `/returns`                                          | Takes search params to filter results. <br/>Returns List of return info objects, paginated |
+| List returns for an order | GET    | `/orders/{{order_id}}/returns`                      | Returns list of returned items for the specified order                                     |
+| List returns for customer | GET    | `/customers/{{customer_id}}/returns`                | Returns list of returned items for the specified user                                      |
+| Update return item        | PATCH  | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Takes JSON form data to update return details (e.g., quantity adjustment or correction)    |
+| Delete return item        | DELETE | `/orders/{{order_id}}/returns/{{returned_item_id}}` | Returns 204 on success; typically restricted to admin or correction workflows              |
 
 ## Q2 - Using Go return occurrence of digit in series between 2 numbers
 #### _NOTE: Go is developer's choice_
