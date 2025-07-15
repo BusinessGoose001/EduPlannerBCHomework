@@ -17,7 +17,8 @@ type findInSeriesRequest struct {
 
 func main() {
 	router := gin.Default()
-	router.GET("/findInSeries", findInSeries)
+	router.POST("/findInSeries", findInSeries)
+	router.GET("/health", isHealthy)
 
 	router.Run(":" + getPort())
 }
@@ -29,6 +30,10 @@ func getPort() string {
 	}
 
 	return port
+}
+
+func isHealthy(context *gin.Context) {
+	context.JSON(http.StatusOK, gin.H{"status": "OK"})
 }
 
 func findInSeries(context *gin.Context) {
