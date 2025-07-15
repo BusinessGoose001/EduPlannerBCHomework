@@ -7,15 +7,20 @@ import (
 
 var AcceptedTypes = map[int]bool{1: true, 2: true, 3: true}
 
+var errors = map[string]error{
+	"invalid_series":       fmt.Errorf("Invalid series. If start greater than end, the increment must be negative"),
+	"invalid_series_check": fmt.Errorf("The series check is not an accepted value. Can be one of %v", AcceptedTypes),
+}
+
 func CountDigitOccurrencesInSeries(start int, end int, increase int, seriesCheckType int, searchKey int) (int, error) {
 
 	if !AcceptedTypes[seriesCheckType] {
-		return -1, fmt.Errorf("The series check is not an accepted value. Can be one of %v", AcceptedTypes)
+		return -1, errors["invalid_series_check"]
 	}
 
 	if start > end {
 		if increase > 0 {
-			return -1, fmt.Errorf("Invalid series. If start greater than end, the increment must be negative")
+			return -1, errors["invalid_series"]
 		} else {
 			start, end, increase = end, start, -1*increase
 		}
@@ -42,6 +47,7 @@ func CountDigitOccurrencesInSeries(start int, end int, increase int, seriesCheck
 					if digit == searchKey {
 						count++
 					}
+					//println("value:", value, "digit:", digit, "searchKey:", searchKey, "count:", count)
 					value = value / 10
 				}
 			}
