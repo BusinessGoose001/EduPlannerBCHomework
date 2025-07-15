@@ -87,8 +87,8 @@ file: [main.go](./digitcount_api/main.go)
 ### Running
 1. Clone Repository
 ```bash
-git clone <repo_path>
-cd <repo_name>/digitcount_api
+git clone git@github.com:BusinessGoose001/EduPlannerBCHomework.git
+cd EduPlannerBCHomework/digitcount_api
 ```
 2. Start the server
 ```bash
