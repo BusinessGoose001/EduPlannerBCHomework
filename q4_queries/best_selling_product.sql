@@ -5,7 +5,8 @@ WITH base_data AS (
         SUM(items.Quantity) AS ProductTotalUnitsSold
     FROM LineItems items
              LEFT JOIN "Order" orders ON items.OrderID = orders.OrderID
-    WHERE orders.OrderCreatedDate BETWEEN DATE("{{ start_date }}") AND DATE("{{ end_date }}")
+    WHERE orders.OrderCreatedDate BETWEEN DATE('{{ start_date }}') AND DATE('{{ end_date }}')
+
 GROUP BY items.ProductID
     ),
 revenue_rank AS (
